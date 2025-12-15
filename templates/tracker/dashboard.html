@@ -587,9 +587,15 @@
         }
     </style>
 </head>
-<body>
+
+
+
+
+
+    
+   <body>
     <div class="container">
-        <!-- Header -->
+        <!-- Header with Navigation -->
         <header>
             <div class="header-content">
                 <h1>
@@ -618,288 +624,323 @@
                 </button>
             </div>
         </header>
+
+        <!-- Navigation Tabs -->
+        <div style="background: var(--white); padding: 15px 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 25px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+            <button onclick="showSection('dashboard')" id="tab-dashboard" class="btn" style="background: var(--dark);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                Dashboard
+            </button>
+            <button onclick="showSection('languages')" id="tab-languages" class="btn btn-success">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+                Languages
+            </button>
+            <button onclick="showSection('study')" id="tab-study" class="btn" style="background: var(--info);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                Study Tracker
+            </button>
+            <button onclick="showSection('progress')" id="tab-progress" class="btn" style="background: var(--warning); color: #333;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+                Progress
+            </button>
+        </div>
         
         <!-- Alert Box -->
         <div id="alertBox" class="alert"></div>
         
-        <!-- Stats Cards -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3>Total Languages</h3>
-                <div class="stat-number">{{ total_languages }}</div>
-            </div>
-            <div class="stat-card">
-                <h3>Full Stack Dev</h3>
-                <div class="stat-number">{{ fsd_count }}</div>
-            </div>
-            <div class="stat-card">
-                <h3>Cyber Security</h3>
-                <div class="stat-number">{{ cs_count }}</div>
-            </div>
-            <div class="stat-card">
-                <h3>Data Science</h3>
-                <div class="stat-number">{{ ds_count }}</div>
+        <!-- SECTION 1: Dashboard (Stats) -->
+        <div id="section-dashboard" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Languages</h3>
+                    <div class="stat-number">{{ total_languages }}</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Full Stack Dev</h3>
+                    <div class="stat-number">{{ fsd_count }}</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Cyber Security</h3>
+                    <div class="stat-number">{{ cs_count }}</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Data Science</h3>
+                    <div class="stat-number">{{ ds_count }}</div>
+                </div>
             </div>
         </div>
         
-        <!-- Study Session Tracker -->
-        <div class="section">
-            <div class="section-header">
-                <h2>
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
+        <!-- SECTION 2: Languages (DEFAULT VISIBLE) -->
+        <div id="section-languages" style="display: block;">
+            <div class="section">
+                <div class="section-header">
+                    <h2>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                        My Languages & Technologies
+                    </h2>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button onclick="toggleAddForm()" class="btn btn-success">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Add New
+                        </button>
+                        <button onclick="exportToCSV()" class="btn btn-success">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                            </svg>
+                            CSV
+                        </button>
+                        <button onclick="exportToPDF()" class="btn btn-danger">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                            </svg>
+                            PDF
+                        </button>
+                        <button onclick="downloadAsImage()" class="btn btn-info">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                            Image
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <input type="text" id="searchBox" onkeyup="searchTable()" placeholder="Search languages, categories, proficiency...">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
                     </svg>
-                    Study Session Tracker
-                </h2>
-                <button onclick="toggleStudyForm()" class="btn btn-success">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                    Log Study Session
-                </button>
-            </div>
-            
-            <!-- Study Form -->
-            <div id="studyForm" class="form-container">
-                <h3>Log Your Study Session</h3>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Select Language *</label>
-                        <select id="studyLanguage" required>
-                            <option value="">Choose...</option>
+                </div>
+                
+                <!-- Filter Buttons -->
+                <div class="filter-buttons">
+                    <button onclick="filterCategory('all')" class="btn btn-sm btn-dark">All</button>
+                    <button onclick="filterCategory('FSD')" class="btn btn-sm" style="background: #1976d2;">Full Stack</button>
+                    <button onclick="filterCategory('CS')" class="btn btn-sm" style="background: #c62828;">Cyber Security</button>
+                    <button onclick="filterCategory('DS')" class="btn btn-sm" style="background: #7b1fa2;">Data Science</button>
+                </div>
+                
+                <!-- Add/Edit Form -->
+                <div id="languageForm" class="form-container">
+                    <h3 id="formTitle">Add New Language</h3>
+                    <form id="langForm" onsubmit="return false;">
+                        <input type="hidden" id="editId" value="">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Language/Technology Name *</label>
+                                <input type="text" id="name" required placeholder="e.g., Python, JavaScript">
+                            </div>
+                            <div class="form-group">
+                                <label>Category *</label>
+                                <select id="category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="FSD">Full Stack Development</option>
+                                    <option value="CS">Cyber Security</option>
+                                    <option value="DS">Data Science</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Proficiency Level *</label>
+                                <select id="proficiency" required>
+                                    <option value="">Select Level</option>
+                                    <option value="Beginner">Beginner</option>
+                                    <option value="Intermediate">Intermediate</option>
+                                    <option value="Advanced">Advanced</option>
+                                    <option value="Expert">Expert</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea id="description" placeholder="Brief description of your experience"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Learning Resources</label>
+                                <textarea id="resources" placeholder="Books, courses, websites, etc."></textarea>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button type="button" onclick="saveLanguage()" class="btn btn-success">Save</button>
+                            <button type="button" onclick="cancelForm()" class="btn btn-danger">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Languages Table -->
+                <div class="table-container">
+                    <table id="languagesTable">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable(0)">Language/Tech ↕</th>
+                                <th onclick="sortTable(1)">Category ↕</th>
+                                <th onclick="sortTable(2)">Proficiency ↕</th>
+                                <th>Description</th>
+                                <th onclick="sortTable(4)">Date Added ↕</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             {% for language in languages %}
-                            <option value="{{ language.name }}">{{ language.name }}</option>
+                            <tr>
+                                <td><strong>{{ language.name }}</strong></td>
+                                <td>
+                                    <span class="badge badge-{{ language.category|lower }}">
+                                        {{ language.get_category_display }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-{{ language.proficiency|lower }}">
+                                        {{ language.proficiency }}
+                                    </span>
+                                </td>
+                                <td>{{ language.description|truncatewords:10 }}</td>
+                                <td>{{ language.date_added|date:"M d, Y" }}</td>
+                                <td>
+                                    <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                                        <button onclick="editLanguage({{ language.id }})" class="btn btn-warning btn-sm">Edit</button>
+                                        <button onclick="deleteLanguage({{ language.id }}, '{{ language.name }}')" class="btn btn-danger btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 60px 20px; color: #999;">
+                                    <div style="font-size: 3em; margin-bottom: 15px;">📚</div>
+                                    <p style="font-size: 1.1em; margin-bottom: 10px;">No languages added yet</p>
+                                    <p>Importing sample data from API...</p>
+                                </td>
+                            </tr>
                             {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Study Duration (minutes) *</label>
-                        <input type="number" id="studyDuration" min="1" placeholder="e.g., 60" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Date *</label>
-                        <input type="date" id="studyDate" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>What did you learn?</label>
-                    <textarea id="studyNotes" placeholder="Brief notes about your study session..."></textarea>
-                </div>
-                <div style="display: flex; gap: 10px; margin-top: 15px;">
-                    <button onclick="saveStudySession()" class="btn btn-success">Save Session</button>
-                    <button onclick="toggleStudyForm()" class="btn btn-danger">Cancel</button>
-                </div>
-            </div>
-            
-            <!-- Study Stats -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px;">
-                <div style="background: var(--light); padding: 20px; border-radius: 10px; text-align: center;">
-                    <p style="color: var(--text-light); font-size: 0.85em; margin-bottom: 5px;">TODAY</p>
-                    <p style="font-size: 2em; font-weight: bold; color: var(--success);" id="todayMinutes">0</p>
-                    <p style="color: var(--text-light); font-size: 0.85em;">minutes</p>
-                </div>
-                <div style="background: var(--light); padding: 20px; border-radius: 10px; text-align: center;">
-                    <p style="color: var(--text-light); font-size: 0.85em; margin-bottom: 5px;">THIS WEEK</p>
-                    <p style="font-size: 2em; font-weight: bold; color: var(--info);" id="weekMinutes">0</p>
-                    <p style="color: var(--text-light); font-size: 0.85em;">minutes</p>
-                </div>
-                <div style="background: var(--light); padding: 20px; border-radius: 10px; text-align: center;">
-                    <p style="color: var(--text-light); font-size: 0.85em; margin-bottom: 5px;">TOTAL SESSIONS</p>
-                    <p style="font-size: 2em; font-weight: bold; color: var(--primary);" id="totalSessions">0</p>
-                    <p style="color: var(--text-light); font-size: 0.85em;">sessions</p>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
         
-        <!-- Progress Charts -->
-        <div class="section">
-            <div class="section-header">
-                <h2>
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="18" y1="20" x2="18" y2="10"></line>
-                        <line x1="12" y1="20" x2="12" y2="4"></line>
-                        <line x1="6" y1="20" x2="6" y2="14"></line>
-                    </svg>
-                    Progress Analytics
-                </h2>
-            </div>
-            
-            <div class="charts-grid">
-                <div class="chart-container">
-                    <h3>Languages by Category</h3>
-                    <canvas id="categoryChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3>Proficiency Distribution</h3>
-                    <canvas id="proficiencyChart"></canvas>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Languages List -->
-        <div class="section" id="languagesSection">
-            <div class="section-header">
-                <h2>
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="16 18 22 12 16 6"></polyline>
-                        <polyline points="8 6 2 12 8 18"></polyline>
-                    </svg>
-                    My Languages & Technologies
-                </h2>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <button onclick="toggleAddForm()" class="btn btn-success">
+        <!-- SECTION 3: Study Tracker -->
+        <div id="section-study" style="display: none;">
+            <div class="section">
+                <div class="section-header">
+                    <h2>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        Study Session Tracker
+                    </h2>
+                    <button onclick="toggleStudyForm()" class="btn btn-success">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="12" y1="5" x2="12" y2="19"></line>
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                         </svg>
-                        Add New
-                    </button>
-                    <button onclick="importLanguages()" class="btn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                        Import API
-                    </button>
-                    <button onclick="exportToCSV()" class="btn btn-success">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14 2 14 8 20 8"></polyline>
-                        </svg>
-                        CSV
-                    </button>
-                    <button onclick="exportToPDF()" class="btn btn-danger">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14 2 14 8 20 8"></polyline>
-                        </svg>
-                        PDF
-                    </button>
-                    <button onclick="downloadAsImage()" class="btn btn-info">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                            <polyline points="21 15 16 10 5 21"></polyline>
-                        </svg>
-                        Image
+                        Log Study Session
                     </button>
                 </div>
-            </div>
-            
-            <!-- Search Bar -->
-            <div class="search-container">
-                <input type="text" id="searchBox" onkeyup="searchTable()" placeholder="Search languages, categories, proficiency...">
-                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.35-4.35"></path>
-                </svg>
-            </div>
-            
-            <!-- Filter Buttons -->
-            <div class="filter-buttons">
-                <button onclick="filterCategory('all')" class="btn btn-sm btn-dark">All</button>
-                <button onclick="filterCategory('FSD')" class="btn btn-sm" style="background: #1976d2;">Full Stack</button>
-                <button onclick="filterCategory('CS')" class="btn btn-sm" style="background: #c62828;">Cyber Security</button>
-                <button onclick="filterCategory('DS')" class="btn btn-sm" style="background: #7b1fa2;">Data Science</button>
-            </div>
-            
-            <!-- Add/Edit Form -->
-            <div id="languageForm" class="form-container">
-                <h3 id="formTitle">Add New Language</h3>
-                <form id="langForm" onsubmit="return false;">
-                    <input type="hidden" id="editId" value="">
+                
+                <!-- Study Form -->
+                <div id="studyForm" class="form-container">
+                    <h3>Log Your Study Session</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Language/Technology Name *</label>
-                            <input type="text" id="name" required placeholder="e.g., Python, JavaScript">
-                        </div>
-                        <div class="form-group">
-                            <label>Category *</label>
-                            <select id="category" required>
-                                <option value="">Select Category</option>
-                                <option value="FSD">Full Stack Development</option>
-                                <option value="CS">Cyber Security</option>
-                                <option value="DS">Data Science</option>
+                            <label>Select Language *</label>
+                            <select id="studyLanguage" required>
+                                <option value="">Choose...</option>
+                                {% for language in languages %}
+                                <option value="{{ language.name }}">{{ language.name }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Proficiency Level *</label>
-                            <select id="proficiency" required>
-                                <option value="">Select Level</option>
-                                <option value="Beginner">Beginner</option>
-                                <option value="Intermediate">Intermediate</option>
-                                <option value="Advanced">Advanced</option>
-                                <option value="Expert">Expert</option>
-                            </select>
+                            <label>Study Duration (minutes) *</label>
+                            <input type="number" id="studyDuration" min="1" placeholder="e.g., 60" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Date *</label>
+                            <input type="date" id="studyDate" required>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea id="description" placeholder="Brief description of your experience"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Learning Resources</label>
-                            <textarea id="resources" placeholder="Books, courses, websites, etc."></textarea>
-                        </div>
+                    <div class="form-group">
+                        <label>What did you learn?</label>
+                        <textarea id="studyNotes" placeholder="Brief notes about your study session..."></textarea>
                     </div>
                     <div style="display: flex; gap: 10px; margin-top: 15px;">
-                        <button type="button" onclick="saveLanguage()" class="btn btn-success">Save</button>
-                        <button type="button" onclick="cancelForm()" class="btn btn-danger">Cancel</button>
+                        <button onclick="saveStudySession()" class="btn btn-success">Save Session</button>
+                        <button onclick="toggleStudyForm()" class="btn btn-danger">Cancel</button>
                     </div>
-                </form>
+                </div>
+                
+                <!-- Study Stats -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px;">
+                    <div style="background: var(--light); padding: 20px; border-radius: 10px; text-align: center;">
+                        <p style="color: var(--text-light); font-size: 0.85em; margin-bottom: 5px;">TODAY</p>
+                        <p style="font-size: 2em; font-weight: bold; color: var(--success);" id="todayMinutes">0</p>
+                        <p style="color: var(--text-light); font-size: 0.85em;">minutes</p>
+                    </div>
+                    <div style="background: var(--light); padding: 20px; border-radius: 10px; text-align: center;">
+                        <p style="color: var(--text-light); font-size: 0.85em; margin-bottom: 5px;">THIS WEEK</p>
+                        <p style="font-size: 2em; font-weight: bold; color: var(--info);" id="weekMinutes">0</p>
+                        <p style="color: var(--text-light); font-size: 0.85em;">minutes</p>
+                    </div>
+                    <div style="background: var(--light); padding: 20px; border-radius: 10px; text-align: center;">
+                        <p style="color: var(--text-light); font-size: 0.85em; margin-bottom: 5px;">TOTAL SESSIONS</p>
+                        <p style="font-size: 2em; font-weight: bold; color: var(--primary);" id="totalSessions">0</p>
+                        <p style="color: var(--text-light); font-size: 0.85em;">sessions</p>
+                    </div>
+                </div>
             </div>
-            
-            <!-- Languages Table -->
-            <div class="table-container">
-                <table id="languagesTable">
-                    <thead>
-                        <tr>
-                            <th onclick="sortTable(0)">Language/Tech ↕</th>
-                            <th onclick="sortTable(1)">Category ↕</th>
-                            <th onclick="sortTable(2)">Proficiency ↕</th>
-                            <th>Description</th>
-                            <th onclick="sortTable(4)">Date Added ↕</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for language in languages %}
-                        <tr>
-                            <td><strong>{{ language.name }}</strong></td>
-                            <td>
-                                <span class="badge badge-{{ language.category|lower }}">
-                                    {{ language.get_category_display }}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="badge badge-{{ language.proficiency|lower }}">
-                                    {{ language.proficiency }}
-                                </span>
-                            </td>
-                            <td>{{ language.description|truncatewords:10 }}</td>
-                            <td>{{ language.date_added|date:"M d, Y" }}</td>
-                            <td>
-                                <div style="display: flex; gap: 5px; flex-wrap: wrap;">
-                                    <button onclick="editLanguage({{ language.id }})" class="btn btn-warning btn-sm">Edit</button>
-                                    <button onclick="deleteLanguage({{ language.id }}, '{{ language.name }}')" class="btn btn-danger btn-sm">Delete</button>
-                                </div>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 60px 20px; color: #999;">
-                                <div style="font-size: 3em; margin-bottom: 15px;">📚</div>
-                                <p style="font-size: 1.1em; margin-bottom: 10px;">No languages added yet</p>
-                                <p>Start tracking your learning journey!</p>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+        </div>
+        
+        <!-- SECTION 4: Progress Charts -->
+        <div id="section-progress" style="display: none;">
+            <div class="section">
+                <div class="section-header">
+                    <h2>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        Progress Analytics
+                    </h2>
+                </div>
+                
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <h3>Languages by Category</h3>
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Proficiency Distribution</h3>
+                        <canvas id="proficiencyChart"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -927,7 +968,7 @@
             <h3 style="margin-top: 25px; margin-bottom: 15px; color: var(--primary);">Assignment Requirements Met</h3>
             <ul>
                 <li><strong>✅ CRUD Operations:</strong> Full Create, Read, Update, Delete via REST API endpoints (/api/languages/)</li>
-                <li><strong>✅ External API Integration:</strong> Imports programming languages from GitHub's language colors API</li>
+                <li><strong>✅ External API Integration:</strong> Auto-imports programming languages from GitHub's language colors API on first visit</li>
                 <li><strong>✅ Data Visualization:</strong> Interactive charts showing category distribution and proficiency levels</li>
                 <li><strong>✅ Database:</strong> PostgreSQL database deployed on Render</li>
                 <li><strong>✅ Python & Django:</strong> Backend built with Django + Django REST Framework</li>
@@ -936,13 +977,14 @@
             
             <h3 style="margin-top: 25px; margin-bottom: 15px; color: var(--primary);">Additional Features</h3>
             <ul>
+                <li>Auto-import sample data on first visit</li>
                 <li>Study session tracking with time logging</li>
                 <li>Progress analytics with Chart.js visualizations</li>
                 <li>Real-time search and category filtering</li>
                 <li>Export data to CSV, PDF, and PNG formats</li>
                 <li>Dark mode toggle for better UX</li>
                 <li>Professional SVG icons throughout</li>
-                <li>Inline add/edit forms for seamless CRUD operations</li>
+                <li>Tab-based navigation for organized sections</li>
                 <li>Sortable table columns</li>
             </ul>
             
@@ -951,6 +993,10 @@
             </p>
         </div>
     </div>
+
+
+
+
 
     <script>
         // Initialize date input to today
@@ -1251,28 +1297,39 @@
         }
         
         // Import Languages
-        function importLanguages() {
-            if (!confirm('Import sample programming languages from external API?\n\nThis will add new languages to your collection.')) {
-                return;
+        // Import Languages (modified with silent mode)
+function importLanguages(silent = false) {
+    if (!silent && !confirm('Import sample programming languages from external API?\n\nThis will add new languages to your collection.')) {
+        return;
+    }
+    
+    if (!silent) {
+        showAlert('Importing languages from GitHub API...', 'success');
+    }
+    
+    fetch('/api/import-languages/')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                localStorage.setItem('apiImported', 'true');
+                if (!silent) {
+                    showAlert(data.message, 'success');
+                }
+                setTimeout(() => location.reload(), silent ? 500 : 2000);
+            } else {
+                if (!silent) {
+                    showAlert('Error: ' + data.message, 'error');
+                }
             }
-            
-            showAlert('Importing languages from GitHub API...', 'success');
-            
-            fetch('/api/import-languages/')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        showAlert(data.message, 'success');
-                        setTimeout(() => location.reload(), 2000);
-                    } else {
-                        showAlert('Error: ' + data.message, 'error');
-                    }
-                })
-                .catch(error => {
-                    showAlert('Failed to import languages', 'error');
-                });
-        }
-        
+        })
+        .catch(error => {
+            if (!silent) {
+                showAlert('Failed to import languages', 'error');
+            }
+            console.error('Error:', error);
+        });
+}
+
         // Search Table
         function searchTable() {
             const input = document.getElementById('searchBox');
@@ -1458,6 +1515,43 @@
                 showAlert('Image downloaded successfully!', 'success');
             });
         }
+
+
+                // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('studyDate').value = today;
+            
+            loadStudyData();
+            initializeCharts();
+            
+            // Auto-import on first visit
+            if (!localStorage.getItem('apiImported') && {{ total_languages }} === 0) {
+                setTimeout(function() {
+                    importLanguages(true); // Silent import
+                }, 1000);
+            }
+        });
+        
+        // Section Navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            document.getElementById('section-dashboard').style.display = 'none';
+            document.getElementById('section-languages').style.display = 'none';
+            document.getElementById('section-study').style.display = 'none';
+            document.getElementById('section-progress').style.display = 'none';
+            
+            // Reset all tab buttons
+            document.getElementById('tab-dashboard').style.background = '';
+            document.getElementById('tab-languages').style.background = '';
+            document.getElementById('tab-study').style.background = '';
+            document.getElementById('tab-progress').style.background = '';
+            
+            // Show selected section and highlight tab
+            document.getElementById('section-' + sectionName).style.display = 'block';
+            document.getElementById('tab-' + sectionName).style.background = 'var(--dark)';
+        }
+
     </script>
 </body>
 </html>
